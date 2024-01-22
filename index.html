@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scoreboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <style>
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .team {
+      background-color: #f3f4f6;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .team h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .team button {
+      background-color: #60a5fa;
+      color: #fff;
+      border: none;
+      border-radius: 0.25rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+
+    .team button:hover {
+      background-color: #3b82f6;
+    }
+
+    .team .score {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .team .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    .team .actions button {
+      background-color: #f87171;
+    }
+
+    .team .actions button:hover {
+      background-color: #f44336;
+    }
+
+    .winner {
+      background-color: #34d399;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      border-radius: 0.5rem;
+      margin-top: 2rem;
+    }
+    header {
+    background-color: tomato;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+  </style>
+</head>
+<body>
+    <header>
+        <h1>Attendance App</h1>
+    </header>
+
+  <div class="scoreboard">
+    <div class="team">
+      <h2>Team 1</h2>
+      <div class="score">0</div>
+      <div class="actions">
+        <button onclick="incrementScore(1)">Add</button>
+        <button onclick="decrementScore(1)">Misuse</button>
+      </div>
+    </div>
+    <div class="team">
+      <h2>Team 2</h2>
+      <div class="score">0</div>
+      <div class="actions">
+        <button onclick="incrementScore(2)">Add</button>
+        <button onclick="decrementScore(2)">Misuse</button>
+      </div>
+    </div>
+    <div class="team">
+      <h2>Team 3</h2>
+      <div class="score">0</div>
+      <div class="actions">
+        <button onclick="incrementScore(3)">Add</button>
+        <button onclick="decrementScore(3)">Misuse</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="winner" id="winner"></div>
+
+  <script>
+    function incrementScore(team) {
+      const scoreElement = document.querySelector(`.team:nth-child(${team}) .score`);
+      const score = parseInt(scoreElement.textContent);
+      scoreElement.textContent = score + 1;
+      checkWinner();
+    }
+
+    function decrementScore(team) {
+      const scoreElement = document.querySelector(`.team:nth-child(${team}) .score`);
+      const score = parseInt(scoreElement.textContent);
+      scoreElement.textContent = score - 1;
+      checkWinner();
+    }
+
+    function checkWinner() {
+      const scores = Array.from(document.querySelectorAll('.score')).map(scoreElement => parseInt(scoreElement.textContent));
+      const maxScore = Math.max(...scores);
+      const winnerElement = document.getElementById('winner');
+      if (scores.filter(score => score === maxScore).length === 1) {
+        const winnerTeam = scores.indexOf(maxScore) + 1;
+        winnerElement.textContent = `Team ${winnerTeam} is the final winner!`;
+      } else {
+        winnerElement.textContent = `Tie`;
+      }
+    }
+  </script>
+</body>
+</html>
